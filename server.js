@@ -15,7 +15,7 @@ const app = express();
 
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/petes-pets');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rotten-potatoes', { useNewUrlParser: true });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -54,5 +54,8 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error');
 });
+
+const port = process.env.PORT || 3000;
+app.listen(port);
 
 module.exports = app;
