@@ -15,7 +15,6 @@ const client = new Upload(process.env.S3_BUCKET, {
     path: 'pets/avatar',
     region: process.env.S3_REGION,
     acl: 'public-read',
-    bucket: process.env.S3_BUCKET,
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },

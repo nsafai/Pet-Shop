@@ -1,6 +1,9 @@
 # Simple Search
 A Node.js implementation of a search form using simple search, pagination, and autocomplete
 
+## Try the live app
+https://nicos-pet-shop.herokuapp.com/
+
 ## Status
 This is a WIP, inspired by [this tutorial/docs](https://www.makeschool.com/academy/track/pete-s-pet-emporium---advanced-web-recipes/tutorial/getting-started-V4Q=)
 
