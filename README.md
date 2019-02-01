@@ -31,7 +31,7 @@ gracefully show an error message to the user
 - [x] Adding payment gateways like Stripe: Buy pets using Stripe.
 - [x] Sending emails: Send an email when a pet is purchased.
 - [x] Full Text Search: Fuzzy and full-text search on multiple criteria
-- [ ] Respond to JSON: Make your project into a full API
+- [x] Respond to JSON: Make your project into a full API
 
 ## Approach
 This app will be built from the 'outside-in', meaning each step, the views or templates will be built before the backend functionality, using mock data.
