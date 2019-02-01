@@ -4,9 +4,6 @@ A Node.js implementation of a search form using simple search, pagination, and a
 ## Try the live app
 https://nicos-pet-shop.herokuapp.com/
 
-## Status
-This is a WIP, inspired by [this tutorial/docs](https://www.makeschool.com/academy/track/pete-s-pet-emporium---advanced-web-recipes/tutorial/getting-started-V4Q=)
-
 ## How to run
 - clone repo
 - run the following commands
@@ -38,3 +35,6 @@ gracefully show an error message to the user
 
 ## Approach
 This app will be built from the 'outside-in', meaning each step, the views or templates will be built before the backend functionality, using mock data.
+
+## Credits
+This is largely inspired from [this tutorial](https://www.makeschool.com/academy/track/pete-s-pet-emporium---advanced-web-recipes/tutorial/getting-started-V4Q=).
