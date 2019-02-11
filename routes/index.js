@@ -6,7 +6,11 @@ module.exports = (app) => {
     const page = req.query.page || 1;
 
     Pet.paginate({}, { limit: 6, page }).then((results) => {
-      res.render('pets-index', { pets: results.docs, pagesCount: results.pages, currentPage: page });
+      res.render('pets-index', {
+        pets: results.docs,
+        pagesCount: results.pages,
+        currentPage: page,
+      });
       if (req.header('content-type') === 'application/json') {
         return res.json({ results });
       }

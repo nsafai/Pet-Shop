@@ -97,9 +97,27 @@ module.exports = (app) => {
 
   // UPDATE PET
   app.put('/pets/:id', (req, res) => {
-    Pet.findByIdAndUpdate(req.params.id, req.body)
-      .then((pet) => {
-        return res.redirect(`/pets/${pet._id}`);
+    let pet = new Pet(req.body);
+
+    if (req.file) {
+      clent.upload(req.file.path, {}, (err, versions) => {
+        if (err) { return res.status(400).send({ err }); }
+        versions.forEach((image) => {
+          let urlArray = image.url.split('-');
+          urlArray.pop();
+          const url = urlArray.join('-');
+          pet.avatarUrl = url;
+          pet.save();
+        });
+        return res.send({ pet });
+      });
+    } else {
+      return res.send({ pet });
+    }
+
+    Pet.findByIdAndUpdate(req.params.id, pet)
+      .then((updatedPet) => {
+        return res.redirect(`/pets/${updatedPet._id}`);
       })
       .catch((err) => {
         // Handle Errors
