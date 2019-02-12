@@ -72,13 +72,10 @@ module.exports = (app) => {
           urlArray.pop();
           const url = urlArray.join('-');
           pet.avatarUrl = url;
-          pet.save().then((savedPet) => {
-            res.send({ savedPet });
-          });
+          pet.save().catch(error => res.send(error));
         });
+        return res.send({ pet });
       });
-    } else {
-      return res.send({ pet });
     }
   });
 
@@ -94,9 +91,7 @@ module.exports = (app) => {
 
   // EDIT PET
   app.get('/pets/:id/edit', (req, res) => {
-    Pet.findById(req.params.id).exec((err, pet) => {
-      return res.render('pets-edit', { pet });
-    });
+    Pet.findById(req.params.id).exec((err, pet) => res.render('pets-edit', { pet }));
   });
 
   // UPDATE PET
@@ -111,7 +106,7 @@ module.exports = (app) => {
           urlArray.pop();
           const url = urlArray.join('-');
           pet.avatarUrl = url;
-          pet.save();
+          pet.save().catch(error => res.send(error));
         });
         return res.send({ pet });
       });
@@ -120,9 +115,7 @@ module.exports = (app) => {
     }
 
     Pet.findByIdAndUpdate(req.params.id, pet)
-      .then((updatedPet) => {
-        return res.redirect(`/pets/${updatedPet._id}`);
-      })
+      .then((updatedPet) => res.redirect(`/pets/${updatedPet._id}`))
       .catch((err) => {
         // Handle Errors
         console.log(err);
