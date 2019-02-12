@@ -15,7 +15,9 @@ const app = express();
 
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rotten-potatoes');
+const dbUri = process.env.MONGODB_URI || 'mongodb://localhost/petes-pets';
+
+mongoose.connect(dbUri, { useNewUrlParser: true });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
+/* eslint-disable global-require */
 /* eslint-disable prefer-const */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
@@ -63,15 +66,16 @@ module.exports = (app) => {
 
     if (req.file) {
       client.upload(req.file.path, {}, (err, versions) => {
-        if (err) { return res.status(400).send({ err }); }
+        if (err) { return res.send({ err }); }
         versions.forEach((image) => {
           let urlArray = image.url.split('-');
           urlArray.pop();
           const url = urlArray.join('-');
           pet.avatarUrl = url;
-          pet.save();
+          pet.save().then((savedPet) => {
+            res.send({ savedPet });
+          });
         });
-        return res.send({ pet });
       });
     } else {
       return res.send({ pet });
@@ -100,7 +104,7 @@ module.exports = (app) => {
     let pet = new Pet(req.body);
 
     if (req.file) {
-      clent.upload(req.file.path, {}, (err, versions) => {
+      client.upload(req.file.path, {}, (err, versions) => {
         if (err) { return res.status(400).send({ err }); }
         versions.forEach((image) => {
           let urlArray = image.url.split('-');
@@ -134,13 +138,30 @@ module.exports = (app) => {
   app.get('/search', (req, res) => {
     // const term = new RegExp(req.query.term, 'i');
 
+    const page = req.query.page || 1;
+
+    let numResults = 0;
+    let maxPerPage = 1;
+
+    // Get total amount of search results
+    Pet
+      .find(
+        { $text: { $search: req.query.term } },
+      )
+      .exec((error, pets) => {
+        if (error) { return res.status(400).send(error); }
+        numResults = pets.length;
+      });
+
+    // Return search results and paginate
     Pet
       .find(
         { $text: { $search: req.query.term } },
         { score: { $meta: 'textScore' } },
       )
       .sort({ score: { $meta: 'textScore' } })
-      .limit(20)
+      .skip((page - 1) * maxPerPage)
+      .limit(maxPerPage)
       .exec((err, pets) => {
         if (err) { return res.status(400).send(err); }
 
@@ -151,6 +172,8 @@ module.exports = (app) => {
           return res.render('pets-index', {
             pets,
             term: req.query.term,
+            pagesCount: (numResults / maxPerPage),
+            currentPage: page,
           });
         }
       });
