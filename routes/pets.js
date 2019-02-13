@@ -134,7 +134,7 @@ module.exports = (app) => {
     const page = req.query.page || 1;
 
     let numResults = 0;
-    let maxPerPage = 1;
+    let maxPerPage = 6;
 
     // Get total amount of search results
     Pet
